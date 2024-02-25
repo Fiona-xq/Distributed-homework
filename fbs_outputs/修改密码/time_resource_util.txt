@@ -1,0 +1,3 @@
+ULF_gen - , Memory: 12.625, Execution Time: 0.10322809219360352, CPU utilization as a % 24.4, CPU Statsscpustats(ctx_switches=3705759, interrupts=2092888, soft_interrupts=979610, syscalls=0), CPU Frequencyscpufreq(current=3791.995, min=0.0, max=0.0)
+
+ULF_gen - sort_ulf - , Memory: 23.85546875, Execution Time: 0.09714984893798828, CPU utilization as a % 25.6, CPU Statsscpustats(ctx_switches=3807381, interrupts=2157550, soft_interrupts=1009356, syscalls=0), CPU Frequencyscpufreq(current=3791.995, min=0.0, max=0.0)

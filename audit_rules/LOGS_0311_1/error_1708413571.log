@@ -1,0 +1,3 @@
+[Tue Feb 20 15:12:10.353857 2024] [mpm_event:notice] [pid 3494:tid 139742188652416] AH00489: Apache/2.4.52 (Ubuntu) configured -- resuming normal operations
+[Tue Feb 20 15:12:10.354187 2024] [core:notice] [pid 3494:tid 139742188652416] AH00094: Command line: '/usr/sbin/apache2'
+[Tue Feb 20 15:19:31.810030 2024] [mpm_event:notice] [pid 3494:tid 139742188652416] AH00492: caught SIGWINCH, shutting down gracefully

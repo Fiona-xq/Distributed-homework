@@ -1,0 +1,273 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1200px;
+                 height: 1800px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 1200px;
+                 height: 1800px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "[2501]/usr/sbin/apache2_4", "label": "[2501]/usr/sbin/apache2_4", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib64/ld-linux-x86-64.so.2", "label": "4_/lib64/ld-linux-x86-64.so.2", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_None:None", "label": "4_None:None", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_:::0", "label": "4_:::0", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_0.0.0.0:0", "label": "4_0.0.0.0:0", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_:::80", "label": "4_:::80", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_0.0.0.0:80", "label": "4_0.0.0.0:80", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_None", "label": "4_None", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib/x86_64-linux-gnu/libpcre.so.3", "label": "4_/lib/x86_64-linux-gnu/libpcre.so.3", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib/x86_64-linux-gnu/libaprutil-1.so.0", "label": "4_/lib/x86_64-linux-gnu/libaprutil-1.so.0", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib/x86_64-linux-gnu/libapr-1.so.0", "label": "4_/lib/x86_64-linux-gnu/libapr-1.so.0", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib/x86_64-linux-gnu/libc.so.6", "label": "4_/lib/x86_64-linux-gnu/libc.so.6", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib/x86_64-linux-gnu/libcrypt.so.1", "label": "4_/lib/x86_64-linux-gnu/libcrypt.so.1", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib/x86_64-linux-gnu/libexpat.so.1", "label": "4_/lib/x86_64-linux-gnu/libexpat.so.1", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib/x86_64-linux-gnu/libuuid.so.1", "label": "4_/lib/x86_64-linux-gnu/libuuid.so.1", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/gai.conf", "label": "4_/etc/gai.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/apache2.conf", "label": "4_/etc/apache2/apache2.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/access_compat.load", "label": "4_/etc/apache2/mods-enabled/access_compat.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_access_compat.so", "label": "4_/usr/lib/apache2/modules/mod_access_compat.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/alias.load", "label": "4_/etc/apache2/mods-enabled/alias.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_alias.so", "label": "4_/usr/lib/apache2/modules/mod_alias.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/auth_basic.load", "label": "4_/etc/apache2/mods-enabled/auth_basic.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_auth_basic.so", "label": "4_/usr/lib/apache2/modules/mod_auth_basic.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/authn_core.load", "label": "4_/etc/apache2/mods-enabled/authn_core.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_authn_core.so", "label": "4_/usr/lib/apache2/modules/mod_authn_core.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/authn_file.load", "label": "4_/etc/apache2/mods-enabled/authn_file.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_authn_file.so", "label": "4_/usr/lib/apache2/modules/mod_authn_file.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/authz_core.load", "label": "4_/etc/apache2/mods-enabled/authz_core.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_authz_core.so", "label": "4_/usr/lib/apache2/modules/mod_authz_core.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/authz_host.load", "label": "4_/etc/apache2/mods-enabled/authz_host.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_authz_host.so", "label": "4_/usr/lib/apache2/modules/mod_authz_host.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/authz_user.load", "label": "4_/etc/apache2/mods-enabled/authz_user.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_authz_user.so", "label": "4_/usr/lib/apache2/modules/mod_authz_user.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/autoindex.load", "label": "4_/etc/apache2/mods-enabled/autoindex.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_autoindex.so", "label": "4_/usr/lib/apache2/modules/mod_autoindex.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/deflate.load", "label": "4_/etc/apache2/mods-enabled/deflate.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_deflate.so", "label": "4_/usr/lib/apache2/modules/mod_deflate.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/lib/x86_64-linux-gnu/libz.so.1", "label": "4_/lib/x86_64-linux-gnu/libz.so.1", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/dir.load", "label": "4_/etc/apache2/mods-enabled/dir.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_dir.so", "label": "4_/usr/lib/apache2/modules/mod_dir.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/env.load", "label": "4_/etc/apache2/mods-enabled/env.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_env.so", "label": "4_/usr/lib/apache2/modules/mod_env.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/filter.load", "label": "4_/etc/apache2/mods-enabled/filter.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_filter.so", "label": "4_/usr/lib/apache2/modules/mod_filter.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/mime.load", "label": "4_/etc/apache2/mods-enabled/mime.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_mime.so", "label": "4_/usr/lib/apache2/modules/mod_mime.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/mpm_event.load", "label": "4_/etc/apache2/mods-enabled/mpm_event.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_mpm_event.so", "label": "4_/usr/lib/apache2/modules/mod_mpm_event.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/negotiation.load", "label": "4_/etc/apache2/mods-enabled/negotiation.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_negotiation.so", "label": "4_/usr/lib/apache2/modules/mod_negotiation.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/reqtimeout.load", "label": "4_/etc/apache2/mods-enabled/reqtimeout.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_reqtimeout.so", "label": "4_/usr/lib/apache2/modules/mod_reqtimeout.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/setenvif.load", "label": "4_/etc/apache2/mods-enabled/setenvif.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_setenvif.so", "label": "4_/usr/lib/apache2/modules/mod_setenvif.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/status.load", "label": "4_/etc/apache2/mods-enabled/status.load", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/usr/lib/apache2/modules/mod_status.so", "label": "4_/usr/lib/apache2/modules/mod_status.so", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/alias.conf", "label": "4_/etc/apache2/mods-enabled/alias.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/autoindex.conf", "label": "4_/etc/apache2/mods-enabled/autoindex.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/deflate.conf", "label": "4_/etc/apache2/mods-enabled/deflate.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/dir.conf", "label": "4_/etc/apache2/mods-enabled/dir.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/mime.conf", "label": "4_/etc/apache2/mods-enabled/mime.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/mpm_event.conf", "label": "4_/etc/apache2/mods-enabled/mpm_event.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/negotiation.conf", "label": "4_/etc/apache2/mods-enabled/negotiation.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/reqtimeout.conf", "label": "4_/etc/apache2/mods-enabled/reqtimeout.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/setenvif.conf", "label": "4_/etc/apache2/mods-enabled/setenvif.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/mods-enabled/status.conf", "label": "4_/etc/apache2/mods-enabled/status.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/ports.conf", "label": "4_/etc/apache2/ports.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/conf-enabled/charset.conf", "label": "4_/etc/apache2/conf-enabled/charset.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/conf-enabled/localized-error-pages.conf", "label": "4_/etc/apache2/conf-enabled/localized-error-pages.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/conf-enabled/other-vhosts-access-log.conf", "label": "4_/etc/apache2/conf-enabled/other-vhosts-access-log.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/conf-enabled/security.conf", "label": "4_/etc/apache2/conf-enabled/security.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/conf-enabled/serve-cgi-bin.conf", "label": "4_/etc/apache2/conf-enabled/serve-cgi-bin.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/apache2/sites-enabled/000-default.conf", "label": "4_/etc/apache2/sites-enabled/000-default.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/nsswitch.conf", "label": "4_/etc/nsswitch.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/passwd", "label": "4_/etc/passwd", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/group", "label": "4_/etc/group", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/host.conf", "label": "4_/etc/host.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/resolv.conf", "label": "4_/etc/resolv.conf", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/hosts", "label": "4_/etc/hosts", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "4_/etc/mime.types", "label": "4_/etc/mime.types", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_/etc/passwd", "label": "5_/etc/passwd", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "[2502]/usr/sbin/apache2_5", "label": "[2502]/usr/sbin/apache2_5", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_None:None", "label": "5_None:None", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_:::80", "label": "5_:::80", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_0.0.0.0:80", "label": "5_0.0.0.0:80", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_None", "label": "5_None", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_/var/run/apache2/apache2.pid.1PjltH", "label": "5_/var/run/apache2/apache2.pid.1PjltH", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_/etc/group", "label": "5_/etc/group", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_/etc/hosts", "label": "5_/etc/hosts", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_/etc/mime.types", "label": "5_/etc/mime.types", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "5_/etc/localtime", "label": "5_/etc/localtime", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "6_/proc/sys/kernel/ngroups_max", "label": "6_/proc/sys/kernel/ngroups_max", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "[2503]/usr/sbin/apache2_6", "label": "[2503]/usr/sbin/apache2_6", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "6_None:None", "label": "6_None:None", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "6_/etc/group", "label": "6_/etc/group", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "6_/lib/x86_64-linux-gnu/libnss_systemd.so.2", "label": "6_/lib/x86_64-linux-gnu/libnss_systemd.so.2", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "6_/proc/sys/kernel/random/boot_id", "label": "6_/proc/sys/kernel/random/boot_id", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "6_/lib/x86_64-linux-gnu/libgcc_s.so.1", "label": "6_/lib/x86_64-linux-gnu/libgcc_s.so.1", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "7_/proc/sys/kernel/ngroups_max", "label": "7_/proc/sys/kernel/ngroups_max", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "[2504]/usr/sbin/apache2_7", "label": "[2504]/usr/sbin/apache2_7", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "7_None:None", "label": "7_None:None", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "7_/etc/group", "label": "7_/etc/group", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "7_/lib/x86_64-linux-gnu/libnss_systemd.so.2", "label": "7_/lib/x86_64-linux-gnu/libnss_systemd.so.2", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "7_/proc/sys/kernel/random/boot_id", "label": "7_/proc/sys/kernel/random/boot_id", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "7_/lib/x86_64-linux-gnu/libgcc_s.so.1", "label": "7_/lib/x86_64-linux-gnu/libgcc_s.so.1", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "[2501]/usr/sbin/apache2_4", "label": "execve(237)", "to": "4_/lib64/ld-linux-x86-64.so.2", "ts": 1708504218752999936, "width": 1}, {"arrows": "to", "from": "[2501]/usr/sbin/apache2_4", "label": "connect(570)", "to": "4_None:None", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "[2501]/usr/sbin/apache2_4", "label": "connect(569)", "to": "4_:::0", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "[2501]/usr/sbin/apache2_4", "label": "connect(571)", "to": "4_0.0.0.0:0", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "[2501]/usr/sbin/apache2_4", "label": "bind(538)", "to": "4_:::80", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "[2501]/usr/sbin/apache2_4", "label": "connect(517)", "to": "4_0.0.0.0:80", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "[2501]/usr/sbin/apache2_4", "label": "write(537)", "to": "4_None", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "4_/lib/x86_64-linux-gnu/libpcre.so.3", "label": "read(241)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218752999936, "width": 1}, {"arrows": "to", "from": "4_/lib/x86_64-linux-gnu/libaprutil-1.so.0", "label": "read(244)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218752999936, "width": 1}, {"arrows": "to", "from": "4_/lib/x86_64-linux-gnu/libapr-1.so.0", "label": "read(247)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218756999936, "width": 1}, {"arrows": "to", "from": "4_/lib/x86_64-linux-gnu/libc.so.6", "label": "read(250)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218756999936, "width": 1}, {"arrows": "to", "from": "4_/lib/x86_64-linux-gnu/libcrypt.so.1", "label": "read(253)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218756999936, "width": 1}, {"arrows": "to", "from": "4_/lib/x86_64-linux-gnu/libexpat.so.1", "label": "read(256)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218756999936, "width": 1}, {"arrows": "to", "from": "4_/lib/x86_64-linux-gnu/libuuid.so.1", "label": "read(259)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218756999936, "width": 1}, {"arrows": "to", "from": "4_/etc/gai.conf", "label": "read(266)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218756999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/apache2.conf", "label": "read(791)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/access_compat.load", "label": "read(583)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_access_compat.so", "label": "read(581)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/alias.load", "label": "read(590)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_alias.so", "label": "read(588)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/auth_basic.load", "label": "read(597)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_auth_basic.so", "label": "read(595)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/authn_core.load", "label": "read(604)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_authn_core.so", "label": "read(602)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/authn_file.load", "label": "read(611)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_authn_file.so", "label": "read(609)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/authz_core.load", "label": "read(618)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_authz_core.so", "label": "read(616)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/authz_host.load", "label": "read(625)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_authz_host.so", "label": "read(623)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/authz_user.load", "label": "read(632)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_authz_user.so", "label": "read(630)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/autoindex.load", "label": "read(639)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_autoindex.so", "label": "read(637)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/deflate.load", "label": "read(651)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_deflate.so", "label": "read(644)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/lib/x86_64-linux-gnu/libz.so.1", "label": "read(649)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/dir.load", "label": "read(658)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_dir.so", "label": "read(656)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/env.load", "label": "read(665)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_env.so", "label": "read(663)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/filter.load", "label": "read(672)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_filter.so", "label": "read(670)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/mime.load", "label": "read(679)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_mime.so", "label": "read(677)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/mpm_event.load", "label": "read(686)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_mpm_event.so", "label": "read(684)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/negotiation.load", "label": "read(693)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_negotiation.so", "label": "read(691)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/reqtimeout.load", "label": "read(700)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_reqtimeout.so", "label": "read(698)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/setenvif.load", "label": "read(707)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_setenvif.so", "label": "read(705)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/status.load", "label": "read(714)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/usr/lib/apache2/modules/mod_status.so", "label": "read(712)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/alias.conf", "label": "read(720)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/autoindex.conf", "label": "read(724)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/deflate.conf", "label": "read(728)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/dir.conf", "label": "read(732)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/mime.conf", "label": "read(737)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/mpm_event.conf", "label": "read(741)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/negotiation.conf", "label": "read(745)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/reqtimeout.conf", "label": "read(749)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/setenvif.conf", "label": "read(753)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/mods-enabled/status.conf", "label": "read(757)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/ports.conf", "label": "read(761)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/conf-enabled/charset.conf", "label": "read(767)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/conf-enabled/localized-error-pages.conf", "label": "read(771)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/conf-enabled/other-vhosts-access-log.conf", "label": "read(775)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/conf-enabled/security.conf", "label": "read(779)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/conf-enabled/serve-cgi-bin.conf", "label": "read(783)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/apache2/sites-enabled/000-default.conf", "label": "read(789)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "4_/etc/nsswitch.conf", "label": "read(497)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "4_/etc/passwd", "label": "read(500)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "4_/etc/group", "label": "read(505)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "4_/etc/host.conf", "label": "read(524)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "4_/etc/resolv.conf", "label": "read(528)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "4_/etc/hosts", "label": "read(535)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218765000192, "width": 1}, {"arrows": "to", "from": "4_/etc/mime.types", "label": "read(563)", "to": "[2501]/usr/sbin/apache2_4", "ts": 1708504218768999936, "width": 1}, {"arrows": "to", "from": "5_/etc/passwd", "label": "read(805)", "to": "[2502]/usr/sbin/apache2_5", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "[2502]/usr/sbin/apache2_5", "label": "bind(816)", "to": "5_None:None", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "[2502]/usr/sbin/apache2_5", "label": "connect(812)", "to": "5_:::80", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "[2502]/usr/sbin/apache2_5", "label": "connect(814)", "to": "5_0.0.0.0:80", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "[2502]/usr/sbin/apache2_5", "label": "write(871)", "to": "5_None", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "[2502]/usr/sbin/apache2_5", "label": "write(855)", "to": "5_/var/run/apache2/apache2.pid.1PjltH", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "5_/etc/group", "label": "read(808)", "to": "[2502]/usr/sbin/apache2_5", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "5_/etc/hosts", "label": "read(823)", "to": "[2502]/usr/sbin/apache2_5", "ts": 1708504218772999936, "width": 1}, {"arrows": "to", "from": "5_/etc/mime.types", "label": "read(852)", "to": "[2502]/usr/sbin/apache2_5", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "5_/etc/localtime", "label": "read(866)", "to": "[2502]/usr/sbin/apache2_5", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "6_/proc/sys/kernel/ngroups_max", "label": "read(863)", "to": "[2503]/usr/sbin/apache2_6", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "[2503]/usr/sbin/apache2_6", "label": "connect(892)", "to": "6_None:None", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "6_/etc/group", "label": "read(872)", "to": "[2503]/usr/sbin/apache2_6", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "6_/lib/x86_64-linux-gnu/libnss_systemd.so.2", "label": "read(880)", "to": "[2503]/usr/sbin/apache2_6", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "6_/proc/sys/kernel/random/boot_id", "label": "read(940)", "to": "[2503]/usr/sbin/apache2_6", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "6_/lib/x86_64-linux-gnu/libgcc_s.so.1", "label": "read(986)", "to": "[2503]/usr/sbin/apache2_6", "ts": 1708504218785000192, "width": 1}, {"arrows": "to", "from": "7_/proc/sys/kernel/ngroups_max", "label": "read(878)", "to": "[2504]/usr/sbin/apache2_7", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "[2504]/usr/sbin/apache2_7", "label": "connect(904)", "to": "7_None:None", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "7_/etc/group", "label": "read(884)", "to": "[2504]/usr/sbin/apache2_7", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "7_/lib/x86_64-linux-gnu/libnss_systemd.so.2", "label": "read(889)", "to": "[2504]/usr/sbin/apache2_7", "ts": 1708504218776999936, "width": 1}, {"arrows": "to", "from": "7_/proc/sys/kernel/random/boot_id", "label": "read(972)", "to": "[2504]/usr/sbin/apache2_7", "ts": 1708504218780999936, "width": 1}, {"arrows": "to", "from": "7_/lib/x86_64-linux-gnu/libgcc_s.so.1", "label": "read(991)", "to": "[2504]/usr/sbin/apache2_7", "ts": 1708504218788999936, "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,1 @@
+savedcmd_/home/fbs2/下载/DisProTrack-main/LKM/new_lkm.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/fbs2/下载/DisProTrack-main/LKM/new_lkm.ko /home/fbs2/下载/DisProTrack-main/LKM/new_lkm.o /home/fbs2/下载/DisProTrack-main/LKM/new_lkm.mod.o;  make -f ./arch/x86/Makefile.postlink /home/fbs2/下载/DisProTrack-main/LKM/new_lkm.ko

@@ -1,0 +1,3 @@
+pid = 21639, date = [1708502994482403982] [Wed Feb 21 16:09:54.482270 2024] [mpm_event:notice] [pid 21639:tid 139859600770944] AH00489: Apache/2.4.52 (Ubuntu) configured -- resuming normal operations
+pid = 21639, date = [1708502994482439179] [Wed Feb 21 16:09:54.482436 2024] [core:notice] [pid 21639:tid 139859600770944] AH00094: Command line: '/usr/sbin/apache2'
+pid = 21639, date = [1708503550445831149] [Wed Feb 21 16:19:10.437313 2024] [mpm_event:notice] [pid 21639:tid 139859600770944] AH00492: caught SIGWINCH, shutting down gracefully
